@@ -90,6 +90,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'admin'])
         Route::delete('/categories/{category}', [AdminController::class, 'destroyCategory'])->name('categories.destroy');
         Route::get('/customers', [AdminController::class, 'customers'])->name('customers');
         Route::post('/customers', [AdminController::class, 'storeCustomer'])->name('customers.store');
+        Route::get('/customers/{user}/edit', [AdminController::class, 'editCustomer'])->name('customers.edit');
+        Route::put('/customers/{user}', [AdminController::class, 'updateCustomer'])->name('customers.update');
+        Route::delete('/customers/{user}', [AdminController::class, 'destroyCustomer'])->name('customers.destroy');
         Route::get('/customers/{user}', [AdminController::class, 'showCustomer'])->name('customers.show');
         Route::patch('/customers/{user}/toggle', [AdminController::class, 'toggleCustomerStatus'])->name('customers.toggle');
         Route::get('/reports', [AdminController::class, 'reports'])->name('reports');

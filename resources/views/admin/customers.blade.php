@@ -58,13 +58,18 @@
                     </td>
                     <td>
                         <div class="d-flex gap-1">
-                            <a href="{{ route('admin.customers.show', $customer) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
-                            <form method="POST" action="{{ route('admin.customers.toggle', $customer) }}" onsubmit="return confirm('Toggle customer status?')">
+                            <a href="{{ route('admin.customers.show', $customer) }}" class="btn btn-sm btn-outline-secondary" title="View"><i class="bi bi-eye"></i></a>
+                            <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil"></i></a>
+                            <form method="POST" action="{{ route('admin.customers.toggle', $customer) }}">
                                 @csrf @method('PATCH')
-                                <button class="btn btn-sm {{ $customer->email_verified_at ? 'btn-outline-danger' : 'btn-outline-success' }}"
+                                <button class="btn btn-sm {{ $customer->email_verified_at ? 'btn-outline-warning' : 'btn-outline-success' }}"
                                     title="{{ $customer->email_verified_at ? 'Suspend' : 'Activate' }}">
                                     <i class="bi bi-{{ $customer->email_verified_at ? 'slash-circle' : 'check-circle' }}"></i>
                                 </button>
+                            </form>
+                            <form method="POST" action="{{ route('admin.customers.destroy', $customer) }}" onsubmit="return confirm('Delete this customer?')">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></button>
                             </form>
                         </div>
                     </td>

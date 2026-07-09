@@ -247,6 +247,39 @@ class AdminController extends Controller
         return redirect()->route('admin.customers')->with('success', 'Customer created successfully!');
     }
 
+    public function editCustomer(User $user)
+    {
+        return view('admin.customer-edit', compact('user'));
+    }
+
+    public function updateCustomer(Request $request, User $user)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+        ]);
+
+        $data = [
+            'name'              => $request->name,
+            'email'             => $request->email,
+            'email_verified_at' => $request->email_verified ? ($user->email_verified_at ?? now()) : null,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+        return redirect()->route('admin.customers')->with('success', 'Customer updated successfully!');
+    }
+
+    public function destroyCustomer(User $user)
+    {
+        $user->delete();
+        return redirect()->route('admin.customers')->with('success', 'Customer deleted.');
+    }
+
     // ─── Payments ─────────────────────────────────────────────────
     public function payments(Request $request)
     {
