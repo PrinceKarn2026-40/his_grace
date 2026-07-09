@@ -10,11 +10,12 @@ class ShopController extends Controller
 {
     public function home()
     {
+        $heroSlider  = Product::with('category')->available()->latest()->take(6)->get();
         $featured    = Product::with('category')->available()->where('featured', true)->latest()->take(8)->get();
         $newArrivals = Product::with('category')->available()->where('is_new', true)->latest()->take(8)->get();
         $upcoming    = Product::with('category')->upcoming()->orderBy('release_date')->take(6)->get();
         $categories  = Category::withCount('products')->get();
-        return view('shop.home', compact('featured', 'newArrivals', 'upcoming', 'categories'));
+        return view('shop.home', compact('heroSlider', 'featured', 'newArrivals', 'upcoming', 'categories'));
     }
 
     public function index(Request $request)
