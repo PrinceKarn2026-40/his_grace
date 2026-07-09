@@ -48,12 +48,26 @@
         @error('stock')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
-    <div class="col-md-6">
+    <div class="col-12">
         <label class="form-label small fw-semibold">Product Image</label>
-        <input type="file" name="image" class="form-control" accept="image/*">
+        <div class="row g-2">
+            <div class="col-md-6">
+                <label class="form-label small text-muted">Upload File</label>
+                <input type="file" name="image" class="form-control" accept="image/*" id="imageFile">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label small text-muted">Or Paste Image URL</label>
+                <input type="url" name="image_url" class="form-control" placeholder="https://example.com/image.jpg"
+                    value="{{ old('image_url') }}" id="imageUrl">
+            </div>
+        </div>
         @if($p?->image)
-            <img src="{{ Storage::url($p->image) }}" height="60" class="mt-2 rounded">
+            <img src="{{ str_starts_with($p->image, 'http') ? $p->image : Storage::url($p->image) }}"
+                 height="80" class="mt-2 rounded border">
         @endif
+        <div class="mt-2">
+            <img id="imagePreview" src="" height="80" class="rounded border d-none">
+        </div>
     </div>
 
     <div class="col-12">
@@ -86,3 +100,19 @@
         <div class="form-text"><i class="bi bi-calendar-event me-1" style="color:var(--gold)"></i>Set a future date to list this as a <strong>Coming Soon</strong> product. It will become purchasable on the release date.</div>
     </div>
 </div>
+
+<script>
+document.getElementById('imageUrl')?.addEventListener('input', function() {
+    const preview = document.getElementById('imagePreview');
+    if (this.value) { preview.src = this.value; preview.classList.remove('d-none'); }
+    else { preview.classList.add('d-none'); }
+});
+document.getElementById('imageFile')?.addEventListener('change', function() {
+    const preview = document.getElementById('imagePreview');
+    if (this.files[0]) {
+        preview.src = URL.createObjectURL(this.files[0]);
+        preview.classList.remove('d-none');
+        document.getElementById('imageUrl').value = '';
+    }
+});
+</script>

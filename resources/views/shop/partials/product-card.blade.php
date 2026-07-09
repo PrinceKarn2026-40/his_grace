@@ -2,7 +2,7 @@
     <div class="card product-card h-100 rounded-3 overflow-hidden">
         <div class="position-relative">
             @if($product->image)
-                <img src="{{ Storage::url($product->image) }}" class="card-img-top product-img" alt="{{ $product->name }}">
+                <img src="{{ str_starts_with($product->image, 'http') ? $product->image : Storage::url($product->image) }}" class="card-img-top product-img" alt="{{ $product->name }}">
             @else
                 <div class="product-img-placeholder">
                     <i class="bi bi-image text-muted" style="font-size:3rem;"></i>

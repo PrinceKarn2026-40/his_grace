@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
                 'gender'      => $p['gender'],
                 'featured'    => $p['featured'],
                 'is_new'      => $p['is_new'],
-                'image'       => null,
+                'image'       => null, // Upload via admin panel
             ]);
         }
     }

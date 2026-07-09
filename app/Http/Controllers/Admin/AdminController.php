@@ -78,15 +78,19 @@ class AdminController extends Controller
             'stock'       => 'required|integer|min:0',
             'gender'      => 'nullable|in:men,women,unisex',
             'image'       => 'nullable|image|max:2048',
+            'image_url'   => 'nullable|url',
             'release_date' => 'nullable|date',
         ]);
 
         $data['slug']     = Str::slug($data['name']) . '-' . uniqid();
         $data['featured'] = $request->boolean('featured');
         $data['is_new']   = $request->boolean('is_new');
+        unset($data['image_url']);
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
+        } elseif ($request->filled('image_url')) {
+            $data['image'] = $request->image_url;
         }
 
         Product::create($data);
@@ -110,14 +114,18 @@ class AdminController extends Controller
             'stock'       => 'required|integer|min:0',
             'gender'      => 'nullable|in:men,women,unisex',
             'image'       => 'nullable|image|max:2048',
+            'image_url'   => 'nullable|url',
             'release_date' => 'nullable|date',
         ]);
 
         $data['featured'] = $request->boolean('featured');
         $data['is_new']   = $request->boolean('is_new');
+        unset($data['image_url']);
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
+        } elseif ($request->filled('image_url')) {
+            $data['image'] = $request->image_url;
         }
 
         $product->update($data);
