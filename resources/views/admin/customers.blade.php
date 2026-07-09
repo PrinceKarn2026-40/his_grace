@@ -5,7 +5,12 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-bold mb-0">Customer Management</h4>
-    <span class="badge bg-light text-dark border">{{ $customers->total() }} customers</span>
+    <div class="d-flex gap-2 align-items-center">
+        <span class="badge bg-light text-dark border">{{ $customers->total() }} customers</span>
+        <button class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#createCustomerModal">
+            <i class="bi bi-person-plus me-1"></i>Create Customer
+        </button>
+    </div>
 </div>
 
 {{-- Search --}}
@@ -72,4 +77,49 @@
     </div>
     <div class="p-3 border-top">{{ $customers->links() }}</div>
 </div>
+
+{{-- Create Customer Modal --}}
+<div class="modal fade" id="createCustomerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Create Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ route('admin.customers.store') }}">
+                @csrf
+                <div class="modal-body">
+                    @if($errors->any())
+                        <div class="alert alert-danger py-2 small">{{ $errors->first() }}</div>
+                    @endif
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Full Name *</label>
+                        <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Email *</label>
+                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Password *</label>
+                        <input type="password" name="password" class="form-control" minlength="8" required>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="email_verified" id="email_verified" value="1" checked>
+                        <label class="form-check-label small" for="email_verified">Mark email as verified</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-dark"><i class="bi bi-person-plus me-1"></i>Create Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@if($errors->any())
+<script>document.addEventListener('DOMContentLoaded',()=>new bootstrap.Modal(document.getElementById('createCustomerModal')).show());</script>
+@endif
+
 @endsection

@@ -228,6 +228,25 @@ class AdminController extends Controller
         return back()->with('success', $msg);
     }
 
+    public function storeCustomer(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        User::create([
+            'name'              => $request->name,
+            'email'             => $request->email,
+            'password'          => \Illuminate\Support\Facades\Hash::make($request->password),
+            'is_admin'          => false,
+            'email_verified_at' => $request->email_verified ? now() : null,
+        ]);
+
+        return redirect()->route('admin.customers')->with('success', 'Customer created successfully!');
+    }
+
     // ─── Payments ─────────────────────────────────────────────────
     public function payments(Request $request)
     {
