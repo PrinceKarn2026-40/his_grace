@@ -14,7 +14,7 @@ class ShopController extends Controller
         $featured    = Product::with('category')->available()->where('featured', true)->latest()->take(8)->get();
         $newArrivals = Product::with('category')->available()->where('is_new', true)->latest()->take(8)->get();
         $upcoming    = Product::with('category')->upcoming()->orderBy('release_date')->take(6)->get();
-        $categories  = Category::withCount('products')->get();
+        $categories  = Category::with('products')->withCount('products')->get();
         return view('shop.home', compact('heroSlider', 'featured', 'newArrivals', 'upcoming', 'categories'));
     }
 

@@ -1,6 +1,7 @@
 <div class="col-6 col-md-3">
     <div class="card product-card h-100 rounded-3 overflow-hidden">
         <div class="position-relative">
+            <a href="{{ route('shop.show', $product) }}" class="d-block">
             @if($product->image)
                 <img src="{{ $product->image_url }}" class="card-img-top product-img" alt="{{ $product->name }}">
             @else
@@ -8,6 +9,7 @@
                     <i class="bi bi-image text-muted" style="font-size:3rem;"></i>
                 </div>
             @endif
+            </a>
             <div class="position-absolute top-0 start-0 p-2 d-flex flex-column gap-1">
                 @if($product->is_new)
                     <span class="badge badge-new">NEW</span>
