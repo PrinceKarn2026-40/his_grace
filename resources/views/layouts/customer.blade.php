@@ -105,7 +105,7 @@
     <div class="sidebar-footer">
         <div class="d-flex align-items-center gap-2 mb-3">
             @if(auth()->user()->profile_photo_path)
-                <img src="{{ Storage::url(auth()->user()->profile_photo_path) }}"
+                <img src="{{ auth()->user()->profile_photo_url }}"
                     style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--red);flex-shrink:0;">
             @else
                 <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
@@ -156,7 +156,7 @@
             <div class="dropdown">
                 <button class="btn btn-sm d-flex align-items-center gap-2 border rounded-pill px-3 py-1" data-bs-toggle="dropdown">
                     @if(auth()->user()->profile_photo_path)
-                        <img src="{{ Storage::url(auth()->user()->profile_photo_path) }}" style="width:26px;height:26px;border-radius:50%;object-fit:cover;">
+                        <img src="{{ auth()->user()->profile_photo_url }}" style="width:26px;height:26px;border-radius:50%;object-fit:cover;">
                     @else
                         <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
                             style="width:26px;height:26px;background:var(--red);font-size:.72rem;flex-shrink:0;">

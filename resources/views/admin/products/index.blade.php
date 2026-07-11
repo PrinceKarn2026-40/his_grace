@@ -51,7 +51,7 @@
                         <div class="d-flex align-items-center gap-3">
                             <div style="width:44px;height:44px;background:#f0ede8;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                 @if($product->image)
-                                    <img src="{{ Storage::url($product->image) }}" style="width:44px;height:44px;object-fit:cover;border-radius:8px;">
+                                    <img src="{{ $product->image_url }}" style="width:44px;height:44px;object-fit:cover;border-radius:8px;">
                                 @else
                                     <i class="bi bi-image text-muted small"></i>
                                 @endif

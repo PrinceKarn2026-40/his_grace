@@ -189,7 +189,7 @@
                         @forelse($heroSlider as $i => $p)
                         <div class="hero-slide {{ $i === 0 ? 'active' : '' }}" data-index="{{ $i }}">
                             @if($p->image)
-                                <img src="{{ Storage::url($p->image) }}" alt="{{ $p->name }}">
+                                <img src="{{ $p->image_url }}" alt="{{ $p->name }}">
                             @else
                                 <div class="hero-slide-placeholder">
                                     <i class="bi bi-bag-heart" style="font-size:5rem;"></i>
@@ -246,12 +246,12 @@
         </div>
         <div class="row g-3 justify-content-center">
             @foreach($categories as $cat)
-            @php $catImg = $cat->products->first()?->image; @endphp
+            @php $catImg = $cat->products->first()?->image_url; @endphp
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                 <a href="{{ route('shop', ['category' => $cat->slug]) }}" class="cat-card text-center">
                     <div class="cat-img-wrap">
                         @if($catImg)
-                            <img src="{{ Storage::url($catImg) }}" alt="{{ $cat->name }}" class="cat-img">
+                            <img src="{{ $catImg }}" alt="{{ $cat->name }}" class="cat-img">
                         @else
                             <div class="cat-img-placeholder"><i class="bi bi-tag"></i></div>
                         @endif
@@ -338,7 +338,7 @@
                 <div class="card h-100 border-0 rounded-3 overflow-hidden" style="background:#2a2a2a;">
                     <div class="position-relative">
                         @if($product->image)
-                            <img src="{{ Storage::url($product->image) }}" class="card-img-top" style="height:220px;object-fit:cover;filter:brightness(.65);">
+                            <img src="{{ $product->image_url }}" class="card-img-top" style="height:220px;object-fit:cover;filter:brightness(.65);">
                         @else
                             <div style="height:220px;background:linear-gradient(135deg,#333,#444);display:flex;align-items:center;justify-content:center;">
                                 <i class="bi bi-bag-heart" style="font-size:4rem;color:var(--gold);opacity:.4;"></i>

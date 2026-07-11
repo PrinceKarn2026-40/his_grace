@@ -14,7 +14,7 @@
                     <div class="d-flex align-items-center p-4 border-bottom gap-3">
                         <div style="width:80px; height:80px; background:#f0ede8; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                             @if($item->product->image)
-                                <img src="{{ Storage::url($item->product->image) }}" style="width:80px;height:80px;object-fit:cover;border-radius:8px;" alt="">
+                                <img src="{{ $item->product->image_url }}" style="width:80px;height:80px;object-fit:cover;border-radius:8px;" alt="">
                             @else
                                 <i class="bi bi-image text-muted"></i>
                             @endif

@@ -161,7 +161,7 @@
             <h6 class="fw-bold mb-3">Account Info</h6>
             <div class="d-flex align-items-center gap-3 mb-3">
                 @if(auth()->user()->profile_photo_path)
-                    <img src="{{ Storage::url(auth()->user()->profile_photo_path) }}"
+                    <img src="{{ auth()->user()->profile_photo_url }}"
                         style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--red);flex-shrink:0;">
                 @else
                     <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"

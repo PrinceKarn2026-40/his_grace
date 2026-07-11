@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
@@ -41,8 +42,10 @@ class CustomerController extends Controller
         $user->update(['name' => $request->name, 'email' => $request->email]);
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('profile-photos', 'public');
-            $user->profile_photo_path = $path;
+            $file = $request->file('photo');
+            $result = (new \Cloudinary\Cloudinary(config('cloudinary.cloud_url')))
+                ->uploadApi()->upload($file->getRealPath(), ['folder' => 'hisgrace/profiles']);
+            $user->profile_photo_path = $result['secure_url'];
             $user->save();
         }
 

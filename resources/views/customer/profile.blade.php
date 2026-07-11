@@ -42,7 +42,7 @@
             {{-- Avatar with edit button --}}
             <div class="avatar-wrap mb-3">
                 @if(auth()->user()->profile_photo_path)
-                    <img src="{{ Storage::url(auth()->user()->profile_photo_path) }}"
+                    <img src="{{ auth()->user()->profile_photo_url }}"
                          alt="Profile Photo" id="avatarPreview">
                 @else
                     <div class="avatar-initials" id="avatarInitials">

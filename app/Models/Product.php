@@ -59,6 +59,15 @@ class Product extends Model
         return $this->sale_price ?? $this->price;
     }
 
+    public function getImageUrlAttribute(): string
+    {
+        if (!$this->image) return '';
+        // Cloudinary URLs are already absolute
+        if (str_starts_with($this->image, 'http')) return $this->image;
+        // Legacy local storage path
+        return \Illuminate\Support\Facades\Storage::url($this->image);
+    }
+
     public function getAverageRatingAttribute(): float
     {
         return round($this->reviews()->avg('rating') ?? 0, 1);

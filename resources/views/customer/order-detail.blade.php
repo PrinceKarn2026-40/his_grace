@@ -20,7 +20,7 @@
                 <div class="d-flex align-items-center gap-3">
                     <div style="width:56px;height:56px;background:#f0ede8;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         @if($item->product?->image)
-                            <img src="{{ Storage::url($item->product->image) }}" style="width:56px;height:56px;object-fit:cover;border-radius:10px;">
+                            <img src="{{ $item->product->image_url }}" style="width:56px;height:56px;object-fit:cover;border-radius:10px;">
                         @else
                             <i class="bi bi-image text-muted"></i>
                         @endif

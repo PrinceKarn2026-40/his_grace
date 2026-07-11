@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -88,7 +89,10 @@ class AdminController extends Controller
         unset($data['image_url']);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public');
+            $file = $request->file('image');
+            $result = (new \Cloudinary\Cloudinary(config('cloudinary.cloud_url')))
+                ->uploadApi()->upload($file->getRealPath(), ['folder' => 'hisgrace/products']);
+            $data['image'] = $result['secure_url'];
         } elseif ($request->filled('image_url')) {
             $data['image'] = $request->image_url;
         }
@@ -123,7 +127,10 @@ class AdminController extends Controller
         unset($data['image_url']);
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public');
+            $file = $request->file('image');
+            $result = (new \Cloudinary\Cloudinary(config('cloudinary.cloud_url')))
+                ->uploadApi()->upload($file->getRealPath(), ['folder' => 'hisgrace/products']);
+            $data['image'] = $result['secure_url'];
         } elseif ($request->filled('image_url')) {
             $data['image'] = $request->image_url;
         }

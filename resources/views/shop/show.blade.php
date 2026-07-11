@@ -17,7 +17,7 @@
         <div class="col-md-5">
             <div class="rounded-3 overflow-hidden" style="background:#f0ede8; min-height:450px; display:flex; align-items:center; justify-content:center;">
                 @if($product->image)
-                    <img src="{{ Storage::url($product->image) }}" class="img-fluid" alt="{{ $product->name }}">
+                    <img src="{{ $product->image_url }}" class="img-fluid" alt="{{ $product->name }}">
                 @else
                     <i class="bi bi-image text-muted" style="font-size:6rem;"></i>
                 @endif

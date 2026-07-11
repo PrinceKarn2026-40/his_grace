@@ -62,7 +62,7 @@
             </div>
         </div>
         @if($p?->image)
-            <img src="{{ str_starts_with($p->image, 'http') ? $p->image : Storage::url($p->image) }}"
+            <img src="{{ $p->image_url }}" height="60" class="mt-2 rounded">
                  height="80" class="mt-2 rounded border">
         @endif
         <div class="mt-2">

@@ -130,7 +130,7 @@
             <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius:16px;">
                 <p class="section-divider">Product Image</p>
                 @if($product->image)
-                    <img id="imgPreview" src="{{ Storage::url($product->image) }}" class="img-preview mb-2">
+                    <img id="imgPreview" src="{{ $product->image_url }}" class="img-preview mb-2">
                     <div id="imgPlaceholder" class="img-placeholder d-none" onclick="document.getElementById('imageInput').click()">
                 @else
                     <img id="imgPreview" class="img-preview d-none mb-2">
