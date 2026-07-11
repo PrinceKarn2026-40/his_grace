@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Fortify;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -10,6 +12,16 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Auto-verify email on registration (no SMTP needed)
+        Fortify::createUsersUsing(function (array $input) {
+            return \App\Models\User::create([
+                'name'               => $input['name'],
+                'email'              => $input['email'],
+                'password'           => \Illuminate\Support\Facades\Hash::make($input['password']),
+                'email_verified_at'  => now(),
+            ]);
+        });
+
         // Force HTTPS when behind a proxy (Railway, etc.)
         if (config('app.env') === 'production') {
             \Illuminate\Support\Facades\URL::forceScheme('https');

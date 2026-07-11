@@ -26,7 +26,7 @@ Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.upda
 Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.remove');
 
 // Authenticated routes
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session')])->group(function () {
     Route::get('/dashboard', function () {
         if (auth()->user()->is_admin) {
             return redirect()->route('admin.dashboard');
