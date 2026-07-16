@@ -129,6 +129,7 @@
         }
         @keyframes waPulse { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(1.7); opacity: 0; } }
         @keyframes waPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
     </style>
     @stack('styles')
 </head>
