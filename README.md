@@ -355,9 +355,7 @@ The workflow consists of two sequential jobs:
 | Generate app key | `php artisan key:generate` |
 | Setup Node.js 20 | `actions/setup-node@v4` with npm cache |
 | Build frontend assets | `npm ci && npm run build` |
-| Run migrations | `php artisan migrate --force` |
-| Seed database | `php artisan db:seed --force` |
-| Run PHPUnit tests | `php artisan test` |
+| Run PHPUnit tests | `php artisan test` (uses `RefreshDatabase` — migrations run automatically) |
 
 #### Job 2 — Docker Build & Smoke Test (`docker-build`)
 *Runs only after Job 1 passes (`needs: build-and-test`)*
@@ -366,8 +364,9 @@ The workflow consists of two sequential jobs:
 |---|---|
 | Checkout code | `actions/checkout@v4` |
 | Build Docker image | `docker build -t hisgrace:latest .` |
-| Start full stack | `docker compose up -d --wait` (app + nginx + db) |
-| Smoke test | HTTP request to `http://localhost:8080` — expects HTTP 200 or 302 |
+| Prepare `.env` | Generate `APP_KEY`, set `APP_URL`, file-based session/cache drivers |
+| Start full stack | `docker compose up -d` (app + nginx + db) — wait 40s for MySQL init |
+| Smoke test | HTTP request to `http://localhost:8080` — expects HTTP 200 or 302 (15 retries) |
 | Teardown | `docker compose down -v` |
 
 ### Trigger Configuration
@@ -381,6 +380,11 @@ on:
 ```
 
 This ensures every code change is validated before it can be considered deployable. Railway then picks up the latest `main` branch commit and auto-deploys the updated Docker image.
+
+### CI/CD Workflow Evidence
+
+![GitHub Actions Workflow](./screenshots/Githubworkflow.png)
+*GitHub Actions CI/CD pipeline showing both jobs — Build & Test and Docker Build & Smoke Test — executing successfully on push to the main branch.*
 
 ---
 
