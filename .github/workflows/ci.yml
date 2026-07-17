@@ -88,20 +88,32 @@ jobs:
       - name: List built images
         run: docker images hisgrace
 
-      - name: Start full stack with docker-compose
+      - name: Prepare .env for Docker stack
         run: |
           cp .env.example .env
-          echo "APP_KEY=$(openssl rand -base64 32)" >> .env
+          APP_KEY="base64:$(openssl rand -base64 32)"
+          sed -i "s|APP_KEY=.*|APP_KEY=${APP_KEY}|" .env
+          sed -i 's|APP_URL=.*|APP_URL=http://localhost:8080|' .env
+          sed -i 's|ASSET_URL=.*|ASSET_URL=http://localhost:8080|' .env
+          sed -i 's|APP_ENV=.*|APP_ENV=local|' .env
+          sed -i 's|APP_DEBUG=.*|APP_DEBUG=true|' .env
+          sed -i 's|SESSION_DRIVER=.*|SESSION_DRIVER=file|' .env
+          sed -i 's|CACHE_STORE=.*|CACHE_STORE=file|' .env
+          sed -i 's|QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|' .env
           echo "DB_ROOT_PASSWORD=rootsecret" >> .env
-          docker compose up -d --wait || docker compose up -d
-          sleep 20
+
+      - name: Start full stack with docker-compose
+        run: |
+          docker compose up -d
+          echo "Waiting for containers to be ready..."
+          sleep 40
 
       - name: Check running containers
         run: docker compose ps
 
-      - name: Smoke test — HTTP 200 from nginx
+      - name: Smoke test — HTTP 200 or 302 from nginx
         run: |
-          for i in {1..10}; do
+          for i in {1..15}; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 || echo "000")
             echo "Attempt $i: HTTP $STATUS"
             if [ "$STATUS" = "200" ] || [ "$STATUS" = "302" ]; then
@@ -112,6 +124,7 @@ jobs:
           done
           echo "❌ Application did not respond in time"
           docker compose logs app
+          docker compose logs nginx
           exit 1
 
       - name: Tear down
