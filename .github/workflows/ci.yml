@@ -69,12 +69,6 @@ jobs:
       - name: Install NPM dependencies & build assets
         run: npm ci && npm run build
 
-      - name: Run database migrations
-        run: php artisan migrate --force
-
-      - name: Seed database
-        run: php artisan db:seed --force
-
       - name: Run PHPUnit tests
         run: php artisan test
 
